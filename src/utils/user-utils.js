@@ -8,7 +8,6 @@ export const handleUserLoginAndSignUp = async (e, userData, method) => {
       url: method === "register" ? "http://localhost:8083/users/register" : "http://localhost:8083/users/login",
       data: userData
   })
-  console.log(response);
 
   if (method === "login") {
     const userData = JSON.stringify(response.data.user);
@@ -18,7 +17,7 @@ export const handleUserLoginAndSignUp = async (e, userData, method) => {
   }
   method === "register"
     ? window.location.replace("http://localhost:3000/login")
-    : window.location.replace("http://localhost:3000/");
+    : window.location.replace("http://localhost:3000/")
   }catch (e){
     console.log(e);
   }

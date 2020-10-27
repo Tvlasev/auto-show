@@ -1,5 +1,7 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useState, useEffect } from "react";
 import MaterialTable from "material-table";
+import axios from "axios";
+import { tableDataCreate } from "../../utils/cars-utils";
 
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -9,54 +11,28 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import Clear from '@material-ui/icons/Clear';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import Edit from '@material-ui/icons/Edit';
-import FilterList from '@material-ui/icons/FilterList';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
-import Remove from '@material-ui/icons/Remove';
-import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
-import ViewColumn from '@material-ui/icons/ViewColumn';
-
 
 const Home = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const getAllCars = async () => {
+      try {
+        const response = await axios.get("http://localhost:8083/cars/all");
+        setData(response.data);
+      }catch(e) {
+        console.log(e)
+      }
+    }
+
+    getAllCars();
+  }, [])
+
   const user = JSON.parse(localStorage.getItem('user'));
   const userToken = JSON.parse(localStorage.getItem('userToken'));
-
-  const [columns, setColumns] = useState([
-    { title: 'Make', field: 'make' },
-    { title: 'Model', field: 'model' },
-    { title: 'Year', field: 'Year', type: 'numeric' },
-    {
-      title: 'Engine Type',
-      field: 'engineType',
-      lookup: { 'DIESEL': 'DIESEL', 'HYBRID': 'HYBRID', 'ELECTRIC': 'ELECTRIC', 'GASOLINE':'GASOLINE' },
-    },
-    {
-      title: 'Gear Box',
-      field: 'gearBox',
-      lookup: {  'AUTOMATIC':'AUTOMATIC', 'MANUAL': 'MANUAL' },
-    },
-    {
-      title: 'Condition',
-      field: 'engineType',
-      lookup: { 'NEW': 'NEW', 'USED': 'USED', 'PARTS': 'PARTS' },
-    },
-    { title: 'Horse Power', field: 'horsePower', type: 'numeric' },
-    { title: 'Color', field: 'color' },
-    { title: 'Price', field: 'price', type: 'numeric' },
-    {
-      title: 'City',
-      field: 'city',
-      lookup: { 'Sofia': 'Sofia', 'Prague': 'Prague', 'Amsterdam': 'Amsterdam' },
-    },
-    { title: 'Miliage', field: 'miliage', type: 'numeric' },
-    { title: 'Extras', field: 'extras' },
-  ]);
-
-  const [data, setData] = useState([
-    { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-    { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
-  ]);
 
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -73,10 +49,12 @@ const Home = () => {
     SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />)
   };
 
+  console.log(data);
+
   return (
     <MaterialTable
       title="CARS"
-      columns={columns}
+      columns={tableDataCreate}
       data={data}
       icons={tableIcons}
       editable={{
@@ -84,7 +62,6 @@ const Home = () => {
           new Promise((resolve, reject) => {
             setTimeout(() => {
               setData([...data, newData]);
-              
               resolve();
             }, 1000)
           }),
@@ -95,7 +72,6 @@ const Home = () => {
               const index = oldData.tableData.id;
               dataUpdate[index] = newData;
               setData([...dataUpdate]);
-
               resolve();
             }, 1000)
           }),
@@ -106,7 +82,6 @@ const Home = () => {
               const index = oldData.tableData.id;
               dataDelete.splice(index, 1);
               setData([...dataDelete]);
-              
               resolve()
             }, 1000)
           }),
