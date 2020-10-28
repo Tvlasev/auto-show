@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
+import Header from "../Header/Header.jsx";
 import MaterialTable from "material-table";
 import axios from "axios";
 import { deleteCar, tableDataCreate, addNewCar, updateCar, tableIcons } from "../../utils/cars-utils";
@@ -23,37 +24,40 @@ const Home = () => {
   const userToken = JSON.parse(localStorage.getItem('userToken'));
 
   return (
-    <MaterialTable
-      title="CARS"
-      columns={tableDataCreate}
-      data={data}
-      icons={tableIcons}
-      editable={{
-        isEditable: rowData => rowData.user && rowData.user.id === user.id,
-        isDeletable: rowData => rowData.user && rowData.user.id === user.id,
-        onRowAdd: async newData => {
-          setData([...data, newData]);
+    <Fragment>
+      <Header user={user} userToken={userToken}/>
+      <MaterialTable
+        title="CARS"
+        columns={tableDataCreate}
+        data={data}
+        icons={tableIcons}
+        editable={user && {
+          isEditable: rowData => rowData.user && user && rowData.user.id === user.id,
+          isDeletable: rowData => rowData.user && user && rowData.user.id === user.id,
+          onRowAdd: async newData => {
+            setData([...data, newData]);
 
-          await addNewCar(newData, user, userToken);
-        },
-        onRowUpdate: async (newData, oldData) => {
-          const dataUpdate = [...data];
-          const index = oldData.tableData.id;
-          dataUpdate[index] = newData;
-          setData([...dataUpdate]);
+            await addNewCar(newData, user, userToken);
+          },
+          onRowUpdate: async (newData, oldData) => {
+            const dataUpdate = [...data];
+            const index = oldData.tableData.id;
+            dataUpdate[index] = newData;
+            setData([...dataUpdate]);
 
-          await updateCar(newData, userToken)
-        },
-        onRowDelete: async oldData => {
-          const dataDelete = [...data];
-          const index = oldData.tableData.id;
-          dataDelete.splice(index, 1);
-          setData([...dataDelete]);
+            await updateCar(newData, userToken)
+          },
+          onRowDelete: async oldData => {
+            const dataDelete = [...data];
+            const index = oldData.tableData.id;
+            dataDelete.splice(index, 1);
+            setData([...dataDelete]);
 
-          await deleteCar(oldData, userToken);
-        }
-      }}
-    />
+            await deleteCar(oldData, userToken);
+          }
+        }}
+      />
+    </Fragment>
   )
 };
 
