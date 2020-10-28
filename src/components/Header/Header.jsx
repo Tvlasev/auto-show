@@ -30,7 +30,10 @@ const Header = ({ user, userToken }) => {
 
   const handleClose = () => setAnchorEl(null);
 
-  const handleLogout = () => localStorage.clear();
+  const handleLogout = () => {
+    localStorage.clear();
+    history.push("/login");
+  }
 
   const handleLogIn = () => history.push("/login");
 
