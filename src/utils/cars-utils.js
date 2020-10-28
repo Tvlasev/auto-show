@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const tableDataCreate = [
   { title: 'Make', field: 'make' },
   { title: 'Model', field: 'model' },
@@ -28,3 +30,23 @@ export const tableDataCreate = [
   { title: 'Mileage', field: 'mileage', type: 'numeric' },
   { title: 'Extras', field: 'extras' },
 ];
+
+export const addNewCar = async (data, user, userToken) => {
+  const config = {
+    headers: { Authorization: `Bearer ${userToken}` }
+  };
+
+  const newData = {...data, user: user};
+  console.log(newData, user, userToken)
+
+  try {
+    const response = await axios.post(
+      'http://localhost:8083/cars',
+      newData,
+      config
+    )
+    console.log(response)
+  } catch(e) {
+    console.log(e);
+  }
+}

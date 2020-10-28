@@ -14,6 +14,7 @@ import Edit from '@material-ui/icons/Edit';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import Search from '@material-ui/icons/Search';
+import { addNewCar } from "../../utils/cars-utils";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -29,10 +30,7 @@ const Home = () => {
     }
 
     getAllCars();
-  }, [])
-
-  const user = JSON.parse(localStorage.getItem('user'));
-  const userToken = JSON.parse(localStorage.getItem('userToken'));
+  }, []);
 
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -49,7 +47,8 @@ const Home = () => {
     SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />)
   };
 
-  console.log(data);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userToken = JSON.parse(localStorage.getItem('userToken'));
 
   return (
     <MaterialTable
@@ -58,13 +57,7 @@ const Home = () => {
       data={data}
       icons={tableIcons}
       editable={{
-        onRowAdd: newData =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              setData([...data, newData]);
-              resolve();
-            }, 1000)
-          }),
+        onRowAdd: async newData => await addNewCar(newData, user, userToken),
         onRowUpdate: (newData, oldData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
