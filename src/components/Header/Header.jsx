@@ -26,18 +26,11 @@ const Header = ({ user, userToken }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handleMenu = event => setAnchorEl(event.currentTarget);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClose = () => setAnchorEl(null);
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("userToken");
-  };
+  const handleLogout = () => localStorage.clear();
 
   const handleLogIn = () => history.push("/login");
 
