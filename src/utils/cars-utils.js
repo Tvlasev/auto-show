@@ -59,6 +59,14 @@ export const tableIcons = {
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />)
 };
 
+export const getAllCars = async () => {
+  try {
+    return await axios.get("http://localhost:8083/cars/all");
+  }catch(e) {
+    console.log(e)
+  }
+}
+
 export const addNewCar = async (data, user, userToken) => {
   const newData = {...data, user: user};
   const config = {
