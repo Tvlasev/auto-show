@@ -2,12 +2,12 @@ import React, { useEffect, Fragment } from "react";
 import Header from "../Header/Header.jsx";
 import MaterialTable from "material-table";
 import { useSelector, useDispatch } from "react-redux"
-import { fetchAllCars } from "../../actions/cars";
-import { deleteCar, tableDataCreate, addNewCar, updateCar, tableIcons } from "../../utils/cars-utils";
+import { fetchAllCars, removeCar, editCar, addCar } from "../../actions/cars";
+import { tableDataCreate, tableIcons } from "../../utils/cars-utils";
 
 const Home = () => {
   const data = useSelector(state => state.carsReducer.data);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchAllCars());
@@ -27,23 +27,9 @@ const Home = () => {
         editable={user && {
           isEditable: rowData => rowData.user && user && rowData.user.id === user.id,
           isDeletable: rowData => rowData.user && user && rowData.user.id === user.id,
-          onRowAdd: async newData => {
-            await addNewCar(newData, user, userToken);
-          },
-          onRowUpdate: async (newData, oldData) => {
-            const dataUpdate = [...data];
-            const index = oldData.tableData.id;
-            dataUpdate[index] = newData;
-
-            await updateCar(newData, userToken)
-          },
-          onRowDelete: async oldData => {
-            const dataDelete = [...data];
-            const index = oldData.tableData.id;
-            dataDelete.splice(index, 1);
-
-            await deleteCar(oldData, userToken);
-          }
+          onRowAdd: async newData => dispatch(addCar(newData, user, userToken)),
+          onRowUpdate: newData => dispatch(editCar(newData, userToken)),
+          onRowDelete: oldData => dispatch(removeCar(oldData, userToken))
         }}
       />
     </Fragment>
