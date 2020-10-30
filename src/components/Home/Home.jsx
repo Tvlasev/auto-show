@@ -7,14 +7,18 @@ import { tableDataCreate, tableIcons } from "../../utils/cars-utils";
 
 const Home = () => {
   const data = useSelector(state => state.carsReducer.data);
+  const user = useSelector(state => state.userReducer.user);
+  const userToken = useSelector(state => state.userReducer.userToken);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchAllCars());
   }, [dispatch]);
 
-  const user = JSON.parse(localStorage.getItem('user'));
-  const userToken = JSON.parse(localStorage.getItem('userToken'));
+  // const user = JSON.parse(localStorage.getItem('user'));
+  // const userToken = JSON.parse(localStorage.getItem('userToken'));
+
+  console.log(user, userToken)
 
   return (
     <Fragment>

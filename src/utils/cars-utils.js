@@ -74,7 +74,7 @@ export const addNewCar = async (data, user, userToken) => {
   };
 
   try {
-    await axios.post(
+    return await axios.post(
       'http://localhost:8083/cars',
       newData,
       config
@@ -92,7 +92,7 @@ export const deleteCar = async (data, userToken) => {
   };
 
   try {
-    await axios.delete(
+    return await axios.delete(
       `http://localhost:8083/cars/${carID}/${userID}`,
       config
     )
@@ -108,7 +108,7 @@ export const updateCar = async (data, userToken) => {
   };
 
   try {
-    await axios.put(
+    return await axios.put(
       `http://localhost:8083/cars/${userID}`,
       data,
       config

@@ -13,7 +13,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link as RouteLink } from "react-router-dom";
-import { handleUserLoginAndSignUp } from "../../utils/user-utils";
+// import { handleUserLoginAndSignUp } from "../../utils/user-utils";
+import { handleUserLogin } from "../../actions/user";
+import { useDispatch } from "react-redux";
+import history from "../../history";
 
 function Copyright() {
   return (
@@ -50,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignIn = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [ userInputLogin, setUserInputLogin ] = useState({
     password: "",
     username: ""
@@ -62,8 +66,6 @@ const SignIn = () => {
       [field]: value
     });
   };
-
-  console.log(userInputLogin);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -110,7 +112,10 @@ const SignIn = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={e => handleUserLoginAndSignUp(e, userInputLogin, "login")}
+            onClick={e => {
+              dispatch(handleUserLogin(e, userInputLogin))
+              history.push("/")
+            }}
           >
             Sign In
           </Button>

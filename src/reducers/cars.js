@@ -35,8 +35,12 @@ export const carsReducer = (state = initialState, action = {}) => {
       return (state = {...state, isEditCarPending: false, editCarError: action.payload});
     case actions.types.ADD_CAR_PENDING:
       return (state = {...state, isAddCarPending: true});
-    case actions.types.ADD_CAR_FULFILLED:
-      return (state = {...state, isAddCarPending: false, /* data: action.payload.data*/ });
+    case actions.types.ADD_CAR_FULFILLED: {
+      const currentState = {...state};
+      const { data } = currentState;
+      data.push(action.payload.data);
+      return (state = {...state, isAddCarPending: false, data });
+    }
     case actions.types.ADD_CAR_REJECTED:
       return (state = {...state, isAddCarPending: false, addCarError: action.payload});
     default:

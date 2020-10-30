@@ -33,10 +33,9 @@ export const addCar = (newData, user, userToken) => async dispatch => {
 
   try{
     const response = await addNewCar(newData, user, userToken);
-
     dispatch({
       type: actions.types.ADD_CAR_FULFILLED,
-      // payload: response
+      payload: response
     });
   }catch(e){
     dispatch({
@@ -53,10 +52,9 @@ export const removeCar = (data, userToken) => async dispatch => {
 
   try{
     const response = await deleteCar(data, userToken);
-
     dispatch({
       type: actions.types.DELETE_CAR_FULFILLED,
-      // payload: response
+      payload: response
     });
   }catch(e){
     dispatch({
@@ -73,10 +71,9 @@ export const editCar = (newData, userToken) => async dispatch => {
 
   try{
     const response = await updateCar(newData, userToken);
-
     dispatch({
       type: actions.types.EDIT_CAR_FULFILLED,
-      // payload: response
+      payload: response
     });
   }catch(e) {
     dispatch({

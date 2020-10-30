@@ -7,9 +7,12 @@ import { createLogger } from 'redux-logger';
 import rootReducer from './reducers/index';
 import { Router } from 'react-router-dom';
 import history from "./history";
+// import { saveState, loadState } from "./localStorage";
 import App from './App';
 
 const loggerMiddleware = createLogger();
+
+// const persistedState = loadState();
 
 const store = createStore(
     rootReducer,
@@ -18,6 +21,14 @@ const store = createStore(
         loggerMiddleware
     )
 );
+
+// store.subscribe(() => {
+//   console.log(store.getState().userReducer.user)
+//   saveState({
+//     user: store.getState().userReducer.user,
+//     userToken: store.getState().userReducer.userToken,
+//   });
+// });
 
 ReactDOM.render(
   <Provider store={store}>

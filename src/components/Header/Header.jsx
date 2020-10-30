@@ -8,6 +8,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import history from "../../history";
+import { useDispatch } from "react-redux";
+import { userLogout } from "../../actions/user";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,17 +25,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = ({ user, userToken }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const handleMenu = event => setAnchorEl(event.currentTarget);
 
   const handleClose = () => setAnchorEl(null);
-
-  const handleLogout = () => {
-    localStorage.clear();
-    history.push("/login");
-  }
 
   const handleLogIn = () => history.push("/login");
 
@@ -70,7 +68,12 @@ const Header = ({ user, userToken }) => {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem onClick={() => {
+                  dispatch(userLogout());
+                  history.push("/login");
+                  localStorage.removeItem('user');
+                  localStorage.removeItem('userToken');
+                }}>Logout</MenuItem>
               </Menu>
             </div>
           ) : (
