@@ -55,8 +55,8 @@ const SignIn = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [ userInputLogin, setUserInputLogin ] = useState({
-    password: "",
-    username: ""
+    password: 1902,
+    username: "halamadrid"
   })
 
   const handleChangeFiled = (event, field) => {
