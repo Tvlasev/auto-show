@@ -8,7 +8,7 @@ import { tableDataCreate, tableIcons } from "../../utils/cars-utils";
 import _ from "lodash";
 
 const Home = () => {
-  const { data } = useSelector(state => state.carsReducer);
+const { data, /* updatedCar */ } = useSelector(state => state.carsReducer);
   const { user, userToken } = useSelector(state => state.userReducer);
   const [ dataInToState, setDataInToState ] = useState(data);
   const dispatch = useDispatch();
@@ -45,7 +45,6 @@ const Home = () => {
     const currentState = [...dataInToState];
     const index = oldData.tableData.id;
     currentState[index] = newData;
-    console.log(currentState);
     setDataInToState([...currentState]);
     dispatch(editCar(newData, userToken))
   }
