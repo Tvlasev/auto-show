@@ -8,5 +8,12 @@ export const handleUserLoginAndSignUp = async (e, userData, method) => {
       data: userData
   })
 
+  if (method === "login") {
+    const user = JSON.stringify(response.data.user);
+    const userToken = JSON.stringify(response.data.jwtToken);
+    localStorage.setItem("user", user);
+    localStorage.setItem("userToken", userToken);
+  }
+
   return response
 }

@@ -41,3 +41,9 @@ export const handleUserSignUp = (event, credentials) => async dispatch => {
 export const userLogout = () => ({
   type: actions.types.USER_LOGOUT_FULFILLED
 });
+
+export const setUserFromLocalStorage = () => dispatch => {
+  dispatch({
+    type: actions.types.SET_USER_FROM_LOCAL_STORAGE
+  });
+}

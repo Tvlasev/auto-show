@@ -3,18 +3,29 @@ import Header from "../Header/Header.jsx";
 import MaterialTable from "material-table";
 import { useSelector, useDispatch } from "react-redux"
 import { fetchAllCars, removeCar, editCar, addCar } from "../../actions/cars";
+import { setUserFromLocalStorage } from "../../actions/user";
 import { tableDataCreate, tableIcons } from "../../utils/cars-utils";
 import _ from "lodash";
 
 const Home = () => {
-  const { data, updatedCar } = useSelector(state => state.carsReducer);
+  const { data } = useSelector(state => state.carsReducer);
   const { user, userToken } = useSelector(state => state.userReducer);
   const [ dataInToState, setDataInToState ] = useState(data);
   const dispatch = useDispatch();
 
   useEffect(() => {
-     dispatch(fetchAllCars());
+    dispatch(fetchAllCars());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!user || !userToken || userToken === "" || Object.keys(user).length === 0) {
+      const user = localStorage.getItem("user")
+      const userToken = localStorage.getItem("userToken")
+      if (user && userToken && userToken !== "") {
+        dispatch(setUserFromLocalStorage());
+      }
+    }
+  }, [dispatch, user, userToken])
 
   useEffect(() => {
     if(!_.isEmpty(data)){
@@ -47,7 +58,7 @@ const Home = () => {
     dispatch(removeCar(oldData, userToken))
   }
 
-  console.log(updatedCar);
+  // console.log(updatedCar);
 
   return (
     <Fragment>

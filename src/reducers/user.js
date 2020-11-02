@@ -30,6 +30,13 @@ export const userReducer = (state = initialState, action = {}) => {
 			return (state = {...state, isUserLoginPending: false, userLoginError: action.payload});
 		case actions.types.USER_LOGOUT_FULFILLED:
 			return (state = {...state, userToken: "", user: {}});
+		case actions.types.SET_USER_FROM_LOCAL_STORAGE: {
+			return (state = {
+        ...state,
+        user: localStorage.getItem("user") && JSON.parse(localStorage.getItem("user")),
+        userToken: localStorage.getItem("userToken") && JSON.parse(localStorage.getItem("userToken")),
+      });
+		}
 		default:
 			return state;
 	}
