@@ -12,23 +12,13 @@ import App from './App';
 
 const loggerMiddleware = createLogger();
 
-// const persistedState = loadState();
-
 const store = createStore(
-    rootReducer,
-    applyMiddleware(
-        thunkMiddleware,
-        loggerMiddleware
-    )
+  rootReducer,
+  applyMiddleware(
+      thunkMiddleware,
+      loggerMiddleware
+  )
 );
-
-// store.subscribe(() => {
-//   console.log(store.getState().userReducer.user)
-//   saveState({
-//     user: store.getState().userReducer.user,
-//     userToken: store.getState().userReducer.userToken,
-//   });
-// });
 
 ReactDOM.render(
   <Provider store={store}>
